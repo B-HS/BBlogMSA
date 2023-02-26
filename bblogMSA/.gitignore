@@ -1,0 +1,6 @@
+*.properties
+*/target
+/.mvn
+/.vscode
+mvnw
+mvnw.cmd

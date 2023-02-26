@@ -1,0 +1,58 @@
+## 테스팅용 compose, 실 서비스 올릴때 나눠서 각 서비스에 작성 예정
+
+version: "3"
+services:
+  usermysql:
+    image: mysql:latest
+    container_name: bblog_user
+    ports:
+      - 30000:30000
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_TCP_PORT: 30000
+      TZ: Asia/Seoul
+
+    command:
+      [
+        "mysqld",
+        "--default-authentication-plugin=mysql_native_password",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+      ]
+  articlemysql:
+    image: mysql:latest
+    container_name: bblog_article
+    ports:
+      - 30001:30001
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_TCP_PORT: 30001
+      TZ: Asia/Seoul
+
+    command:
+      [
+        "mysqld",
+        "--default-authentication-plugin=mysql_native_password",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+      ]
+  imageredis:
+    image: redis:latest
+    command: redis-server --port 30002
+    container_name: bblog_image
+    hostname: redis_service
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 30002:30002
+  visitorredis:
+    image: redis:latest
+    command: redis-server --port 30003
+    container_name: bblog_visitor
+    hostname: redis_service
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 30003:30003
